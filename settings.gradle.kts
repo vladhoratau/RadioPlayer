@@ -1,4 +1,5 @@
 pluginManagement {
+    val kotlin_version by extra("2.0.0")
     repositories {
         google {
             content {
