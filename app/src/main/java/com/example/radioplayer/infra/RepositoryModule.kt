@@ -13,9 +13,9 @@ object RepositoryModule {
     /** Method for providing the radio station repository
      * @param radioStationService instance of RadioStationService class
      * @return the object representing an instance of RadioStationRepoImpl class */
-//    @Singleton
-//    @Provides
-//    fun provideRadioStationRepo(radioStationService: RadioStationService): RadioStationRepo {
-//        return RadioStationsRepoImpl(radioStationService)
-//    }
+    @Singleton
+    @Provides
+    fun provideRadioStationRepo(radioStationService: RadioStationService): RadioStationRepo {
+        return RadioStationsRepoImpl(radioStationService)
+    }
 }

@@ -6,7 +6,10 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
+/** Utils object for specific file operations */
 object FileUtils {
+
+    private val TAG = FileUtils::class.simpleName
     fun readPemFile(context: Context, fileName: String): ByteArray? {
         return try {
             // Open the file from assets
@@ -18,7 +21,7 @@ object FileUtils {
             inputStream.close()
             buffer
         } catch (e: IOException) {
-            Log.e("Vlad", "Error reading PEM file: ${e.message}")
+            Log.e(TAG, "Error reading PEM file: ${e.message}")
             e.printStackTrace()
             null
         }

@@ -31,6 +31,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
 
+    private val TAG = RetrofitModule::class.simpleName
+    private const val KEY_ID = "a1788d60-0403-11ef-ac22-edf145f33827"
+
     /** Method for providing the okhttp repository
      * @return an instance of OkHttpClient */
     @Provides
@@ -38,21 +41,19 @@ object RetrofitModule {
     fun provideOkHttpClient(@ApplicationContext context: Context): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-
-        val keyId = "a1788d60-0403-11ef-ac22-edf145f33827"
-        val fileName = "$keyId.pem"
+        val fileName = "$KEY_ID.pem"
 
         val pemByteArray = readPemFile(context, fileName)
 
         val pemFile = pemByteArray?.let { saveByteArrayToFile(context, it, fileName) }
         if (pemFile == null) {
-            Log.e("Vlad", "PEM file is null. Cannot configure OkHttpClient properly.")
+            Log.e(TAG, "PEM file is null. Cannot configure OkHttpClient properly.")
         } else {
-            Log.e("Vlad", "PEM file is ${pemFile.name}")
+            Log.e(TAG, "PEM file is ${pemFile.name}")
         }
         val key: Key = PEMHelper.readKey(pemFile, charArrayOf())
         val signer =
-            Signer(key, net.adamcin.httpsig.ssh.jce.UserFingerprintKeyId(keyId))
+            Signer(key, net.adamcin.httpsig.ssh.jce.UserFingerprintKeyId(KEY_ID))
         val challenge =
             Challenge("", Constants.DEFAULT_HEADERS, listOf(Algorithm.RSA_SHA256))
         signer.rotateKeys(challenge)
@@ -68,7 +69,7 @@ object RetrofitModule {
             val requestContent = requestContentBuilder.build()
             val auth = signer.sign(requestContent)
             val sig = StringBuilder().append("Signature keyId=")
-                .append("\"").append(keyId).append("\"")
+                .append("\"").append(KEY_ID).append("\"")
                 .append(",algorithm=\"rsa-sha256\",signature=\"")
                 .append(auth.signature)
                 .append("\"").toString()
