@@ -8,10 +8,8 @@ import javax.inject.Inject
 /** Get radio stations by a specific country code use */
 class GetRadioStationsByCountryCodeUseCase @Inject constructor(private val radioStationRepo: RadioStationRepo) {
     suspend operator fun invoke(
-        authHeader: String,
         country: Int,
-        include: String? = null
     ): Response<RadioStationsResponse> {
-        return radioStationRepo.getStationsByCountryCode(authHeader, country, include)
+        return radioStationRepo.getStationsByCountryCode(country)
     }
 }

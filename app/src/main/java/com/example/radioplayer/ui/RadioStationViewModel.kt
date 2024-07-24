@@ -19,7 +19,7 @@ class RadioStationViewModel @Inject constructor(
     val radioStationsLiveData = MutableLiveData<List<RadioStationData>?>()
 
     fun getRadioStationsByCountryCode(countryCode: Int) = viewModelScope.launch {
-        getRadioStationsByCountryCodeUseCase.invoke("", countryCode).let {
+        getRadioStationsByCountryCodeUseCase.invoke( countryCode).let {
             if (it.isSuccessful) {
                 Log.d(TAG, "Response successful with ${it.body()?.data?.size} + results")
                 Log.d(TAG, "Results ${it.body()?.data.toString()}")

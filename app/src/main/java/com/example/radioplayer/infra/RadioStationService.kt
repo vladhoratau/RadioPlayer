@@ -3,7 +3,6 @@ package com.example.radioplayer.infra
 import com.example.radioplayer.domain.RadioStationsResponse
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -17,13 +16,7 @@ interface RadioStationService {
 
     @GET("v2/stations")
     suspend fun getStationsByCountryCode(
-        @Header("Authorization") authHeader: String,
         @Query("country") country: Int,
-        @Query("include") include: String? = null
     ): Response<RadioStationsResponse>
 
-    @GET("v2/stations")
-    suspend fun getAllStations(
-        @Header("Authorization") authHeader: String,
-    ): Response<RadioStationsResponse>
 }
