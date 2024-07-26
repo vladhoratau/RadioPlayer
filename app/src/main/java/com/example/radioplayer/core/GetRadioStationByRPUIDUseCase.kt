@@ -5,11 +5,11 @@ import com.example.radioplayer.infra.RadioStationRepo
 import retrofit2.Response
 import javax.inject.Inject
 
-/** Get radio stations by a specific country code usecase */
-class GetRadioStationsByCountryCodeUseCase @Inject constructor(private val radioStationRepo: RadioStationRepo) {
+/** Get radio stations by a specific rpuid usecase */
+class GetRadioStationByRPUIDUseCase @Inject constructor(private val radioStationRepo: RadioStationRepo) {
     suspend operator fun invoke(
-        country: Int,
+        rpuid: String
     ): Response<RadioStationsResponse> {
-        return radioStationRepo.getStationsByCountryCode(country)
+        return radioStationRepo.getStationByRPUID(rpuid)
     }
 }

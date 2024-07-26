@@ -23,7 +23,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        radioStationViewModel.getRadioStationsByCountryCode(250)
+       // radioStationViewModel.getRadioStationsByCountryCode(250)
+        radioStationViewModel.getRadioStaionByRPUID("2501341")
         radioStationViewModel.radioStationsLiveData.observe(this) { radioStations ->
             Log.d(
                 TAG,

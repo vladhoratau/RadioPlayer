@@ -7,7 +7,11 @@ import javax.inject.Inject
 /** Radio station repo interface with methods for specific operations */
 interface RadioStationRepo {
     suspend fun getStationsByCountryCode(
-        country: Int,
+        country: Int
+    ): Response<RadioStationsResponse>
+
+    suspend fun getStationByRPUID(
+        rpuid: String
     ): Response<RadioStationsResponse>
 }
 
@@ -15,9 +19,14 @@ interface RadioStationRepo {
 class RadioStationsRepoImpl @Inject constructor(private val radioStationService: RadioStationService) :
     RadioStationRepo {
     override suspend fun getStationsByCountryCode(
-        country: Int,
+        country: Int
     ): Response<RadioStationsResponse> {
         return radioStationService.getStationsByCountryCode(country)
     }
 
+    override suspend fun getStationByRPUID(
+        rpuid: String
+    ): Response<RadioStationsResponse> {
+        return radioStationService.getRadioByRpuid(rpuid)
+    }
 }

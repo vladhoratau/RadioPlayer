@@ -10,8 +10,7 @@ import retrofit2.http.Query
 interface RadioStationService {
     @GET("v2/stations/{rpuids}")
     suspend fun getRadioByRpuid(
-        @Path("rpuids") rpuids: List<String>,
-        @Query("include") include: String? = null
+        @Path("rpuids") rpuids: String
     ): Response<RadioStationsResponse>
 
     @GET("v2/stations")
@@ -19,4 +18,7 @@ interface RadioStationService {
         @Query("country") country: Int,
     ): Response<RadioStationsResponse>
 
+    @GET("v2/stations")
+    suspend fun getAllStations(
+    ): Response<RadioStationsResponse>
 }
