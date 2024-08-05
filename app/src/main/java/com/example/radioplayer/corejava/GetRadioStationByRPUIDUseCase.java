@@ -4,8 +4,6 @@ package com.example.radioplayer.corejava;
 import com.example.radioplayer.domainjava.RadioStationsResponse;
 import com.example.radioplayer.infrajava.RadioStationRepo;
 
-import javax.inject.Inject;
-
 import retrofit2.Call;
 
 /**
@@ -15,7 +13,7 @@ public class GetRadioStationByRPUIDUseCase {
 
     private final RadioStationRepo radioStationRepo;
 
-    @Inject
+
     public GetRadioStationByRPUIDUseCase(RadioStationRepo radioStationRepo) {
         this.radioStationRepo = radioStationRepo;
     }

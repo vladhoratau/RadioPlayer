@@ -9,8 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.radioplayer.corejava.GetRadioStationByRPUIDUseCase;
+import com.example.radioplayer.corejava.GetRadioStationsByCountryCodeUseCase;
 import com.example.radioplayer.domainjava.RadioStationData;
+import com.example.radioplayer.infrajava.RadioStationRepo;
 import com.example.radioplayer.infrajava.RadioStationService;
+import com.example.radioplayer.infrajava.RadioStationsRepoImpl;
+import com.example.radioplayer.infrajava.RetrofitHelper;
 import com.example.radioplayer.uijava.RadioStationViewModel;
 
 import java.util.List;
@@ -18,11 +23,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
 
-@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
-    @Inject
+
     RadioStationService radioStationService;
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)

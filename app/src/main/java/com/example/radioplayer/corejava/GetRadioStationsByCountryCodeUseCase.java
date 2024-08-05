@@ -15,7 +15,6 @@ public class GetRadioStationsByCountryCodeUseCase {
 
     private final RadioStationRepo radioStationRepo;
 
-    @Inject
     public GetRadioStationsByCountryCodeUseCase(RadioStationRepo radioStationRepo) {
         this.radioStationRepo = radioStationRepo;
     }

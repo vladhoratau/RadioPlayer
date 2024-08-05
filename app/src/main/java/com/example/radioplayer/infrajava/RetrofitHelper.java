@@ -20,13 +20,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.TimeZone;
 
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
-import dagger.hilt.InstallIn;
 import dagger.hilt.android.qualifiers.ApplicationContext;
-import dagger.hilt.components.SingletonComponent;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -34,11 +28,9 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-@Module
-@InstallIn(SingletonComponent.class)
-public class RetrofitModule {
+public class RetrofitHelper {
 
-    private static final String TAG = RetrofitModule.class.getSimpleName();
+    private static final String TAG = RetrofitHelper.class.getSimpleName();
     private static final String KEY_ID = "a1788d60-0403-11ef-ac22-edf145f33827";
 
     /**
@@ -46,8 +38,6 @@ public class RetrofitModule {
      *
      * @return an instance of OkHttpClient
      */
-    @Provides
-    @Singleton
     public static OkHttpClient provideOkHttpClient(@ApplicationContext Context context) {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -108,20 +98,13 @@ public class RetrofitModule {
      *
      * @return an instance of Retrofit
      */
-    @Provides
-    @Singleton
+
     public static Retrofit provideRetrofit(OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .baseUrl(com.example.radioplayer.infrajava.Constants.RADIO_PLAYER_API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
-    }
-
-    @Provides
-    @Singleton
-    public static RadioStationService provideRadioStationService(Retrofit retrofit) {
-        return retrofit.create(RadioStationService.class);
     }
 }
 

@@ -1,32 +1,37 @@
 package com.example.radioplayer.uijava;
 
+import android.app.Application;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.radioplayer.corejava.GetRadioStationByRPUIDUseCase;
 import com.example.radioplayer.corejava.GetRadioStationsByCountryCodeUseCase;
 import com.example.radioplayer.domainjava.RadioStationData;
 import com.example.radioplayer.domainjava.RadioStationsResponse;
+import com.example.radioplayer.infrajava.RadioStationRepo;
+import com.example.radioplayer.infrajava.RadioStationService;
+import com.example.radioplayer.infrajava.RadioStationsRepoImpl;
+import com.example.radioplayer.infrajava.RetrofitHelper;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.inject.Inject;
-
-import dagger.hilt.android.lifecycle.HiltViewModel;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * The ViewModel used in MainActivity (later in RadioStationsFragment)
  * providing a list of radio stations from a specific country.
  */
-@HiltViewModel
-public class RadioStationViewModel extends ViewModel {
+
+public class RadioStationViewModel extends AndroidViewModel {
 
     private final GetRadioStationsByCountryCodeUseCase getRadioStationsByCountryCodeUseCase;
     private final GetRadioStationByRPUIDUseCase getRadioStationByRPUIDUseCase;
@@ -34,11 +39,14 @@ public class RadioStationViewModel extends ViewModel {
     private final MutableLiveData<List<RadioStationData>> radioStationsLiveData = new MutableLiveData<>();
 
 
-    @Inject
-    public RadioStationViewModel(GetRadioStationsByCountryCodeUseCase getRadioStationsByCountryCodeUseCase,
-                                 GetRadioStationByRPUIDUseCase getRadioStationByRPUIDUseCase) {
-        this.getRadioStationsByCountryCodeUseCase = getRadioStationsByCountryCodeUseCase;
-        this.getRadioStationByRPUIDUseCase = getRadioStationByRPUIDUseCase;
+    public RadioStationViewModel(@NonNull Application application) {
+        super(application);
+        OkHttpClient okHttpClient = RetrofitHelper.provideOkHttpClient(getApplication().getApplicationContext());
+        Retrofit retrofit = RetrofitHelper.provideRetrofit(okHttpClient);
+        RadioStationService radioStationService = retrofit.create(RadioStationService.class);
+        RadioStationRepo radioStationRepo = new RadioStationsRepoImpl(radioStationService);
+        this.getRadioStationsByCountryCodeUseCase = new GetRadioStationsByCountryCodeUseCase(radioStationRepo);
+        this.getRadioStationByRPUIDUseCase = new GetRadioStationByRPUIDUseCase(radioStationRepo);
     }
 
     public MutableLiveData<List<RadioStationData>> getRadioStationsLiveData() {

@@ -2,8 +2,6 @@ package com.example.radioplayer.infrajava;
 
 import com.example.radioplayer.domainjava.RadioStationsResponse;
 
-import javax.inject.Inject;
-
 import retrofit2.Call;
 
 /**
@@ -13,7 +11,6 @@ public class RadioStationsRepoImpl implements RadioStationRepo {
 
     private final RadioStationService radioStationService;
 
-    @Inject
     public RadioStationsRepoImpl(RadioStationService radioStationService) {
         this.radioStationService = radioStationService;
     }
